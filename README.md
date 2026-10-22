@@ -1,8 +1,8 @@
 # Grand Prix Circuit (1988) - Native 64-bit Recompilation
 
-[![CI/CD Multi-Platform Build](https://github.com/OWNER/REPO/actions/workflows/build_and_release.yml/badge.svg)](https://github.com/OWNER/REPO/actions/workflows/build_and_release.yml)
+[![CI/CD Multi-Platform Build](https://github.com/UgaTEC/grand-prix-circuit-recomp/actions/workflows/build_and_release.yml/badge.svg)](https://github.com/UgaTEC/grand-prix-circuit-recomp/actions/workflows/build_and_release.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-blue.svg)](https://github.com/OWNER/REPO/releases)
+[![Platform](https://img.shields.io/badge/Platform-Windows%20%7C%20Linux%20%7C%20macOS-blue.svg)](https://github.com/UgaTEC/grand-prix-circuit-recomp/releases)
 
 A modern, standalone, native 64-bit recompilation and enhanced port of the legendary Formula 1 simulator **Grand Prix Circuit** (Accolade / Distinctive Software, 1988).
 
@@ -40,7 +40,7 @@ To play the game, you must provide the game data files from your own legally pur
 ## How to Play
 
 ### 1. Download Pre-Built Release
-Download the archive for your operating system from the [Releases](https://github.com/OWNER/REPO/releases) tab:
+Download the archive for your operating system from the [Releases](https://github.com/UgaTEC/grand-prix-circuit-recomp/releases) tab:
 - **Windows**: `GrandPrixCircuit_Windows_x64.zip`
 - **Linux / Steam Deck**: `GrandPrixCircuit_Linux_x64.tar.gz`
 - **macOS (Apple Silicon M1/M2/M3/M4)**: `GrandPrixCircuit_macOS_Silicon.zip`
@@ -92,8 +92,8 @@ sudo pacman -S --noconfirm alsa-lib libx11 pkgconf
 ### Compiling
 ```bash
 # Clone the repository
-git clone https://github.com/OWNER/REPO.git
-cd REPO
+git clone https://github.com/UgaTEC/grand-prix-circuit-recomp.git
+cd grand-prix-circuit-recomp
 
 # Build in release mode
 cargo build --release --manifest-path gprix_recomp/Cargo.toml
