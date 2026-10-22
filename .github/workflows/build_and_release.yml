@@ -73,7 +73,7 @@ jobs:
           mkdir -p package
           cp ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
           chmod +x package/${{ matrix.binary_name }}
-          cp GrandPrixCircuit_Release/README.txt package/
+          cp README_PLAYER.txt package/README.txt
           cp LICENSE package/
           cd package && zip -r ../${{ matrix.artifact_name }} .
 
@@ -84,7 +84,7 @@ jobs:
           mkdir -p package
           cp ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
           chmod +x package/${{ matrix.binary_name }}
-          cp GrandPrixCircuit_Release/README.txt package/
+          cp README_PLAYER.txt package/README.txt
           cp LICENSE package/
           tar -czvf ${{ matrix.artifact_name }} -C package .
 
@@ -95,7 +95,7 @@ jobs:
         run: |
           New-Item -ItemType Directory -Path package -Force | Out-Null
           Copy-Item ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
-          Copy-Item GrandPrixCircuit_Release/README.txt package/
+          Copy-Item README_PLAYER.txt package/README.txt
           Copy-Item LICENSE package/
           Compress-Archive -Path package/* -DestinationPath ${{ matrix.artifact_name }}
 
