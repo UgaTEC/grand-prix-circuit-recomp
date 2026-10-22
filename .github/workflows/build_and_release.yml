@@ -1,0 +1,129 @@
+name: Multi-Platform Build & Release
+
+on:
+  push:
+    branches: [ "**" ]
+    tags: [ "v*" ]
+  pull_request:
+    branches: [ "**" ]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build (${{ matrix.target }})
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # macOS Apple Silicon (M1/M2/M3/M4)
+          - os: macos-latest
+            target: aarch64-apple-darwin
+            artifact_name: GrandPrixCircuit_macOS_Silicon.zip
+            binary_src: gprix_recomp/target/aarch64-apple-darwin/release/gprix_recomp
+            binary_name: GrandPrixCircuit
+
+          # macOS Intel (x86_64)
+          - os: macos-13
+            target: x86_64-apple-darwin
+            artifact_name: GrandPrixCircuit_macOS_Intel.zip
+            binary_src: gprix_recomp/target/x86_64-apple-darwin/release/gprix_recomp
+            binary_name: GrandPrixCircuit
+
+          # Linux x86_64
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            artifact_name: GrandPrixCircuit_Linux_x64.tar.gz
+            binary_src: gprix_recomp/target/x86_64-unknown-linux-gnu/release/gprix_recomp
+            binary_name: GrandPrixCircuit
+
+          # Windows x86_64
+          - os: windows-latest
+            target: x86_64-pc-windows-msvc
+            artifact_name: GrandPrixCircuit_Windows_x64.zip
+            binary_src: gprix_recomp/target/x86_64-pc-windows-msvc/release/gprix_recomp.exe
+            binary_name: GrandPrixCircuit.exe
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: ${{ matrix.target }}
+
+      # Install Linux build dependencies for ALSA (cpal) and X11 (minifb)
+      - name: Install Linux dependencies
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libasound2-dev libx11-dev libxcursor-dev pkg-config
+
+      - name: Build release binary
+        run: cargo build --release --target ${{ matrix.target }} --manifest-path gprix_recomp/Cargo.toml
+
+      # Package clean artifacts (macOS) - ZERO copyrighted assets
+      - name: Package for macOS
+        if: runner.os == 'macOS'
+        run: |
+          mkdir -p package
+          cp ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
+          chmod +x package/${{ matrix.binary_name }}
+          cp GrandPrixCircuit_Release/README.txt package/
+          cp LICENSE package/
+          cd package && zip -r ../${{ matrix.artifact_name }} .
+
+      # Package clean artifacts (Linux) - ZERO copyrighted assets
+      - name: Package for Linux
+        if: runner.os == 'Linux'
+        run: |
+          mkdir -p package
+          cp ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
+          chmod +x package/${{ matrix.binary_name }}
+          cp GrandPrixCircuit_Release/README.txt package/
+          cp LICENSE package/
+          tar -czvf ${{ matrix.artifact_name }} -C package .
+
+      # Package clean artifacts (Windows) - ZERO copyrighted assets
+      - name: Package for Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          New-Item -ItemType Directory -Path package -Force | Out-Null
+          Copy-Item ${{ matrix.binary_src }} package/${{ matrix.binary_name }}
+          Copy-Item GrandPrixCircuit_Release/README.txt package/
+          Copy-Item LICENSE package/
+          Compress-Archive -Path package/* -DestinationPath ${{ matrix.artifact_name }}
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.artifact_name }}
+          path: ${{ matrix.artifact_name }}
+
+  release:
+    name: Publish GitHub Release
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v') || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            dist/*.zip
+            dist/*.tar.gz
+          generate_release_notes: true

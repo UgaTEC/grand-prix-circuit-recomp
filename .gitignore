@@ -1,0 +1,43 @@
+# Rust build artifacts
+target/
+**/target/
+
+# Compiled binaries
+*.exe
+*.EXE
+*.dll
+*.so
+*.dylib
+
+# Original copyrighted game files (Accolade / Distinctive Software)
+# Users must supply these files from their legally owned copy.
+*.D64
+*.d64
+*.sid
+*.SID
+*.PCS
+*.pcs
+*.PES
+*.pes
+*.STM
+*.stm
+*.TRP
+*.trp
+gprix2/
+c64_assets/
+assets/*.sid
+
+# Local distribution packages and build outputs
+GrandPrixCircuit_Release/
+GrandPrixCircuit_Linux/
+GrandPrixCircuit_macOS/
+package/
+*.zip
+*.tar.gz
+
+# Scratch scripts and temporary files
+scratch/
+__pycache__/
+*.pyc
+*.log
+*.tmp

@@ -1,0 +1,11 @@
+[package]
+name = "gprix_recomp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+cpal = "0.18.2"
+iced-x86 = "1.21.0"
+minifb = "0.29.0"
+mos6502 = "0.10.1"
+sidera = "1.1.1"
