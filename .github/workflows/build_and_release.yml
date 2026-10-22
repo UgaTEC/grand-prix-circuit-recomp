@@ -26,12 +26,6 @@ jobs:
             binary_src: gprix_recomp/target/aarch64-apple-darwin/release/gprix_recomp
             binary_name: GrandPrixCircuit
 
-          # macOS Intel (x86_64)
-          - os: macos-13
-            target: x86_64-apple-darwin
-            artifact_name: GrandPrixCircuit_macOS_Intel.zip
-            binary_src: gprix_recomp/target/x86_64-apple-darwin/release/gprix_recomp
-            binary_name: GrandPrixCircuit
 
           # Linux x86_64
           - os: ubuntu-latest

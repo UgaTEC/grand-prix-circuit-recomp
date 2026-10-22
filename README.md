@@ -12,7 +12,7 @@ Written in **Rust**, this port runs natively on modern operating systems without
 
 ## Key Features
 
-- **Native 64-bit Port**: Built in Rust for Windows (x64), Linux (x64 / Steam Deck), and macOS (Apple Silicon M-Series & Intel).
+- **Native 64-bit Port**: Built in Rust for Windows (x64), Linux (x64 / Steam Deck), and macOS (Apple Silicon M-Series).
 - **60 FPS Spatial Motion Interpolation (`F9`)**:
   - Eliminates the original 1988 engine's 20 FPS judder using **2D scanline optical flow displacement**.
   - Curves, kerbs, and road lines physically translate across the screen at 60 FPS with **zero motion blur, zero ghosting, and zero transparency**.
@@ -44,7 +44,6 @@ Download the archive for your operating system from the [Releases](https://githu
 - **Windows**: `GrandPrixCircuit_Windows_x64.zip`
 - **Linux / Steam Deck**: `GrandPrixCircuit_Linux_x64.tar.gz`
 - **macOS (Apple Silicon M1/M2/M3/M4)**: `GrandPrixCircuit_macOS_Silicon.zip`
-- **macOS (Intel)**: `GrandPrixCircuit_macOS_Intel.zip`
 
 Extract the contents into a folder on your computer.
 
